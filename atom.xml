@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title><![CDATA[CaydenK的技术博客]]></title>
+  
+  <link href="/atom.xml" rel="self"/>
+  <link href="http://blog2.caydenk.cn/"/>
+  <updated>2015-05-07T04:41:02.000Z</updated>
+  <id>http://blog2.caydenk.cn/</id>
+  
+  <author>
+    <name><![CDATA[CaydenK]]></name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[My New Post]]></title>
+    <link href="http://blog2.caydenk.cn/2015/05/07/My-New-Post/"/>
+    <id>http://blog2.caydenk.cn/2015/05/07/My-New-Post/</id>
+    <published>2015-05-07T04:41:02.000Z</published>
+    <updated>2015-05-07T04:41:02.000Z</updated>
+    <content type="html"></content>
+    <summary type="html">
+    
+    </summary>
+    
+  </entry>
+  
+</feed>
