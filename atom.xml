@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://blog2.caydenk.cn/"/>
-  <updated>2015-05-07T04:41:02.000Z</updated>
+  <updated>2015-05-07T06:03:09.000Z</updated>
   <id>http://blog2.caydenk.cn/</id>
   
   <author>
@@ -15,15 +15,110 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[My New Post]]></title>
-    <link href="http://blog2.caydenk.cn/2015/05/07/My-New-Post/"/>
-    <id>http://blog2.caydenk.cn/2015/05/07/My-New-Post/</id>
-    <published>2015-05-07T04:41:02.000Z</published>
-    <updated>2015-05-07T04:41:02.000Z</updated>
-    <content type="html"></content>
+    <title><![CDATA[iOS限制文字长度（支持中文）]]></title>
+    <link href="http://blog2.caydenk.cn/2015/05/01/iOS%E9%99%90%E5%88%B6%E6%96%87%E5%AD%97%E9%95%BF%E5%BA%A6%EF%BC%88%E6%94%AF%E6%8C%81%E4%B8%AD%E6%96%87%EF%BC%89/"/>
+    <id>http://blog2.caydenk.cn/2015/05/01/iOS限制文字长度（支持中文）/</id>
+    <published>2015-04-30T16:42:31.000Z</published>
+    <updated>2015-05-07T06:03:09.000Z</updated>
+    <content type="html"><![CDATA[<p>首先，今天是五一，大家节日快乐<del><img src="http://blog.caydenk.cn/wp-content/uploads/2015/05/4fff9fed44c2ceac44c6f.jpg" alt="4fff9fed44c2ceac44c6f">啦啦啦啦，可以肆无忌惮的奔弛啦</del>~该浪的浪，该约的约，该xx的xx~~</p>
+<p>嗯，废话结束，话说一种很常见的问题，就是限制文字长度，几乎所有APP都会有这个需求，但是呢，当碰到中文输入不知道大家是否碰到过问题，就是拼音也在长度计算之内！！！！简直不能忍！</p>
+<p>so，这种五一的时候，给大家一点奉献，奉献完了我就出门浪咯~~</p>
+<p>首先，问题分析，实际上的情况就是，中文输入的时候，拼音是在输入框内，然后是选中状态的，就比如这样：<img src="http://blog.caydenk.cn/wp-content/uploads/2015/05/QQ20150501-1@2x.png" alt="QQ20150501-1@2x">，就是说拼音是选中状态的，那么可以根据UITextInput 协议计算出选中文字的UITextRange，然后根据UITextRange计算NSRange，就能知道非选中状态下的中文文字字符串了，当然，以上问题在iOS7下没问题！！</p>
+<p>OK，上代码：</p>
+<p>[code lang=”swift”]</p>
+<h1 id="import_&quot;ViewController-h&quot;">import &quot;ViewController.h&quot;</h1><h1 id="import_&quot;UITextRange+ELVSubject-h&quot;">import &quot;UITextRange+ELVSubject.h&quot;</h1><p>//是否iOS7/iOS8</p>
+<h1 id="define_IOS7_([[[[UIDevice_currentDevice]_systemVersion]_substringToIndex:1]_intValue]&gt;=7&amp;&amp;[[[[UIDevice_currentDevice]_systemVersion]_substringToIndex:1]_intValue]&lt;8)">define IOS7 ([[[[UIDevice currentDevice] systemVersion] substringToIndex:1] intValue]&gt;=7&amp;&amp;[[[[UIDevice currentDevice] systemVersion] substringToIndex:1] intValue]&lt;8)</h1><h1 id="define_IOS8_([[[[UIDevice_currentDevice]_systemVersion]_substringToIndex:1]_intValue]&gt;=8)">define IOS8 ([[[[UIDevice currentDevice] systemVersion] substringToIndex:1] intValue]&gt;=8)</h1><p>@interface ViewController ()&lt;UITextFieldDelegate&gt;</p>
+<p>@end</p>
+<p>@implementation ViewController</p>
+<ul>
+<li><p>(void)viewDidLoad{<br>  [super viewDidLoad];<br>  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkTextFieldTextLength:) name:UITextFieldTextDidChangeNotification object:nil];<br>}</p>
+</li>
+<li><p>(void)checkTextFieldTextLength:(NSNotification <em>)noti{<br>  UITextField </em>textField = noti.object;<br>  NSString <em>text = textField.text;<br>  //待选文字外的内容<br>  NSString </em>tmpStr;<br>  if (IOS8) {</p>
+<pre><code><span class="comment">//记录中文待选文字记录</span>
+UITextRange <span class="variable">*markedTextRange</span> = <span class="keyword">textField</span>.markedTextRange;
+<span class="comment">//待选文字range</span>
+NSRange markedRange = [markedTextRange rangeValueWithInputValue:<span class="keyword">textField</span>];
+tmpStr = [NSString stringWithFormat:<span class="variable">@&amp;</span>quot;<span class="variable">%@</span><span class="variable">%@</span>&amp;quot;,[<span class="keyword">text</span> substringToIndex:markedRange.location],[<span class="keyword">text</span> substringFromIndex:markedRange.location+markedRange.length]];
+</code></pre><p>  }<br>  else if (IOS7){</p>
+<pre><code>tmpStr = <span class="type">text</span>;
+</code></pre><p>  }<br>  //修改话题样式<br>  if (tmpStr.length&gt;10) {</p>
+<pre><code><span class="title">[textField deleteBackward]</span><span class="comment">;</span>
+</code></pre><p>  }<br>}</p>
+</li>
+<li><p>(void)dealloc<br>{<br>  [[NSNotificationCenter defaultCenter] removeObserver:self];<br>}</p>
+</li>
+</ul>
+<p>@end</p>
+<h1 id="import_&quot;UITextRange+ELVSubject-h&quot;-1">import &quot;UITextRange+ELVSubject.h&quot;</h1><p>@implementation UITextRange (ELVSubject)</p>
+<p>/**</p>
+<ul>
+<li>UITextRange 转换成 NSRange<br>*</li>
+<li>@param input 输入视图<br>*</li>
+<li>@return NSRange值<br>*/<ul>
+<li>(NSRange)rangeValueWithInputValue:(id&lt;UITextInput&gt;)input<br>{<br>UITextPosition<em> beginning = input.beginningOfDocument;<br>UITextPosition</em> selectionStart = self.start;<br>UITextPosition* selectionEnd = self.end;<br>NSInteger location = [input offsetFromPosition:beginning toPosition:selectionStart];<br>NSInteger length = [input offsetFromPosition:selectionStart toPosition:selectionEnd];<br>return NSMakeRange(location, length);<br>}</li>
+</ul>
+</li>
+</ul>
+<p>@end</p>
+<p>[/code]</p>
+<p>以上。</p>
+<p>五一快乐！</p>
+]]></content>
     <summary type="html">
-    
+    <![CDATA[<p>首先，今天是五一，大家节日快乐<del><img src="http://blog.caydenk.cn/wp-content/uploads/2015/05/4fff9fed44c2ceac44c6f.jpg" alt="4fff9fed44c2ceac44c6f">啦啦]]>
     </summary>
+    
+      <category term="首页" scheme="http://blog2.caydenk.cn/categories/%E9%A6%96%E9%A1%B5/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[自定义Switch控件，可自定义文字以及背景的iOS控件]]></title>
+    <link href="http://blog2.caydenk.cn/2015/04/13/%E8%87%AA%E5%AE%9A%E4%B9%89Switch%E6%8E%A7%E4%BB%B6%EF%BC%8C%E5%8F%AF%E8%87%AA%E5%AE%9A%E4%B9%89%E6%96%87%E5%AD%97%E4%BB%A5%E5%8F%8A%E8%83%8C%E6%99%AF%E7%9A%84iOS%E6%8E%A7%E4%BB%B6/"/>
+    <id>http://blog2.caydenk.cn/2015/04/13/自定义Switch控件，可自定义文字以及背景的iOS控件/</id>
+    <published>2015-04-12T21:00:07.000Z</published>
+    <updated>2015-05-07T06:03:09.000Z</updated>
+    <content type="html"><![CDATA[<p>先上图</p>
+<p><img src="http://blog.caydenk.cn/wp-content/uploads/2015/04/QQ20150413-1@2x.png" alt="QQ20150413-1@2x"> <img src="http://blog.caydenk.cn/wp-content/uploads/2015/04/QQ20150413-2@2x.png" alt="QQ20150413-2@2x">  （图随意截的，不要在意）</p>
+<p>系统本身的UISwitch其实很漂亮，但是呢，设计师设计的Switch，并不是那么简单的，需要显示文字，然后显示背景，而且大小可控制等等。。</p>
+<p>这时候，特喵的系统的Switch就捉襟见肘了，作为一只程序猿，怎么能说功能实现不了呢<img src="http://blog.caydenk.cn/wp-content/uploads/2015/04/a.jpg" alt="a"></p>
+<p>自己动手，丰衣足食<del>伟大的领袖毛老爷子说的名言</del></p>
+<p>言归正传，首先，看UISwitch实现的思路，是基于UIControl实现的。控件是对UIView派生类的实用增强及补充，并可以直接附着于导航栏、表格单元，甚至更大的对象。UIControl派生自UIView类，所以每个控件都有很多视图的特性，包括附着于其他视图的能力。所有<br>控件都拥有一套共同的属性和方法。</p>
+<p>那么，咱这个自定义的Switch也是继承UIControl，省很多事情，而且事件的封装都搞定了~</p>
+<p>当事件都搞定的时候，这时候需要关心的只是UI了~那么，这个时候，有显示而无事件，这就想到了CALayer，这时候，我选择的时CALayer的subClass:CAShapeLayer(两个重要的subClass：CAGradientLayer和CAShapeLayer)。drawInContext 绘制文字、图片等内容显示~这里有个比较坑的地方，CGContextDrawImage()函数绘制图片的时候，会上下翻转，需要对图片进行处理一下再进行绘制。</p>
+<p>OK，提到这里，上代码~</p>
+<p><a href="http://pan.baidu.com/s/1sjmdbTr" target="_blank" rel="external">http://pan.baidu.com/s/1sjmdbTr</a>(密码：gccm)</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>先上图</p>
+<p><img src="http://blog.caydenk.cn/wp-content/uploads/2015/04/QQ20150413-1@2x.png" alt="QQ20150413-1@2x"> <img src="http://blog.]]>
+    </summary>
+    
+      <category term="首页" scheme="http://blog2.caydenk.cn/categories/%E9%A6%96%E9%A1%B5/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Block中访问成员变量防止循环引用]]></title>
+    <link href="http://blog2.caydenk.cn/2015/04/02/Block%E4%B8%AD%E8%AE%BF%E9%97%AE%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E9%98%B2%E6%AD%A2%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8/"/>
+    <id>http://blog2.caydenk.cn/2015/04/02/Block中访问成员变量防止循环引用/</id>
+    <published>2015-04-02T01:47:06.000Z</published>
+    <updated>2015-05-07T06:03:09.000Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://img.zynews.com/attachement/jpg/site2/20141119/00219761fd2015d64a955c.jpg" alt=""></p>
+<p>定义一个成员变量以后，需要在block中引用怎么办呢~</p>
+<p>直接写成员变量名称去用，其实会默认引用self，会出现循环引用</p>
+<p>若是在block外，定义一个弱引用weakSelf（__weak typeof(self) weakSelf = self;）后，在block中，weakSelf-&gt;成员变量 ，这样使用就会报错~</p>
+<p>如图：<img src="http://blog.caydenk.cn/wp-content/uploads/2015/04/QQ20150402-1.png" alt="QQ20150402-1"></p>
+<p>那么，其实代码已经暴露了，在block中对weakSelf再强引用一次就万事大吉啦~~~</p>
+<p><img src="http://blog.caydenk.cn/wp-content/uploads/2015/04/QQ20150402-2.png" alt="QQ20150402-2"></p>
+<p>&nbsp;</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><img src="http://img.zynews.com/attachement/jpg/site2/20141119/00219761fd2015d64a955c.jpg" alt=""></p>
+<p>定义一个成员变量以后，需要在block中引用怎么办呢~</p>]]>
+    </summary>
+    
+      <category term="首页" scheme="http://blog2.caydenk.cn/categories/%E9%A6%96%E9%A1%B5/"/>
     
   </entry>
   

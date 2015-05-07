@@ -4,17 +4,32 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives | CaydenK的技术博客</title>
+  <title>Block中访问成员变量防止循环引用 | CaydenK的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="CaydenK的技术博客">
-<meta property="og:url" content="http://blog2.caydenk.cn/archives/index.html">
+  <meta name="description" content="定义一个成员变量以后，需要在block中引用怎么办呢~
+直接写成员变量名称去用，其实会默认引用self，会出现循环引用
+若是在block外，定义一个弱引用weakSelf（__weak typeof(self) weakSelf = self;）后，在block中，weakSelf-&amp;gt;成员变量 ，这样使用就会报错~
+如图：
+那么，其实代码已经暴露了，在block中对weakSelf再强引用一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Block中访问成员变量防止循环引用">
+<meta property="og:url" content="http://blog2.caydenk.cn/2015/04/02/Block中访问成员变量防止循环引用/index.html">
 <meta property="og:site_name" content="CaydenK的技术博客">
-<meta property="og:description">
+<meta property="og:description" content="定义一个成员变量以后，需要在block中引用怎么办呢~
+直接写成员变量名称去用，其实会默认引用self，会出现循环引用
+若是在block外，定义一个弱引用weakSelf（__weak typeof(self) weakSelf = self;）后，在block中，weakSelf-&amp;gt;成员变量 ，这样使用就会报错~
+如图：
+那么，其实代码已经暴露了，在block中对weakSelf再强引用一">
+<meta property="og:image" content="http://img.zynews.com/attachement/jpg/site2/20141119/00219761fd2015d64a955c.jpg">
+<meta property="og:image" content="http://blog.caydenk.cn/wp-content/uploads/2015/04/QQ20150402-1.png">
+<meta property="og:image" content="http://blog.caydenk.cn/wp-content/uploads/2015/04/QQ20150402-2.png">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CaydenK的技术博客">
-<meta name="twitter:description">
+<meta name="twitter:title" content="Block中访问成员变量防止循环引用">
+<meta name="twitter:description" content="定义一个成员变量以后，需要在block中引用怎么办呢~
+直接写成员变量名称去用，其实会默认引用self，会出现循环引用
+若是在block外，定义一个弱引用weakSelf（__weak typeof(self) weakSelf = self;）后，在block中，weakSelf-&amp;gt;成员变量 ，这样使用就会报错~
+如图：
+那么，其实代码已经暴露了，在block中对weakSelf再强引用一">
   
     <link rel="alternative" href="/atom.xml" title="CaydenK的技术博客" type="application/atom+xml">
   
@@ -66,77 +81,72 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/05/01/iOS限制文字长度（支持中文）/" class="archive-article-date">
-  <time datetime="2015-04-30T16:42:31.000Z" itemprop="datePublished">5月 1</time>
+      <section id="main"><article id="post-Block中访问成员变量防止循环引用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/04/02/Block中访问成员变量防止循环引用/" class="article-date">
+  <time datetime="2015-04-02T01:47:06.000Z" itemprop="datePublished">2015-04-02</time>
 </a>
-      
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/首页/">首页</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/05/01/iOS限制文字长度（支持中文）/">iOS限制文字长度（支持中文）</a>
+    <h1 class="article-title" itemprop="name">
+      Block中访问成员变量防止循环引用
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/04/13/自定义Switch控件，可自定义文字以及背景的iOS控件/" class="archive-article-date">
-  <time datetime="2015-04-12T21:00:07.000Z" itemprop="datePublished">4月 13</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/04/13/自定义Switch控件，可自定义文字以及背景的iOS控件/">自定义Switch控件，可自定义文字以及背景的iOS控件</a>
-    </h1>
-  
+        <p><img src="http://img.zynews.com/attachement/jpg/site2/20141119/00219761fd2015d64a955c.jpg" alt=""></p>
+<p>定义一个成员变量以后，需要在block中引用怎么办呢~</p>
+<p>直接写成员变量名称去用，其实会默认引用self，会出现循环引用</p>
+<p>若是在block外，定义一个弱引用weakSelf（__weak typeof(self) weakSelf = self;）后，在block中，weakSelf-&gt;成员变量 ，这样使用就会报错~</p>
+<p>如图：<img src="http://blog.caydenk.cn/wp-content/uploads/2015/04/QQ20150402-1.png" alt="QQ20150402-1"></p>
+<p>那么，其实代码已经暴露了，在block中对weakSelf再强引用一次就万事大吉啦~~~</p>
+<p><img src="http://blog.caydenk.cn/wp-content/uploads/2015/04/QQ20150402-2.png" alt="QQ20150402-2"></p>
+<p>&nbsp;</p>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/04/02/Block中访问成员变量防止循环引用/" class="archive-article-date">
-  <time datetime="2015-04-02T01:47:06.000Z" itemprop="datePublished">4月 2</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/04/02/Block中访问成员变量防止循环引用/">Block中访问成员变量防止循环引用</a>
-    </h1>
-  
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://blog2.caydenk.cn/2015/04/02/Block中访问成员变量防止循环引用/" data-id="ci9drudmv0006xnrzx1hl8z95" class="article-share-link" data-share="baidu">分享到</a>
+      
 
-    </header>
+      
+
+      
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/04/13/自定义Switch控件，可自定义文字以及背景的iOS控件/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">
+        
+          自定义Switch控件，可自定义文字以及背景的iOS控件
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
 </section>
       
       <aside id="sidebar">
