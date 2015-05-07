@@ -99,42 +99,7 @@
 <p>so，这种五一的时候，给大家一点奉献，奉献完了我就出门浪咯~~</p>
 <p>首先，问题分析，实际上的情况就是，中文输入的时候，拼音是在输入框内，然后是选中状态的，就比如这样：<img src="http://blog.caydenk.cn/wp-content/uploads/2015/05/QQ20150501-1@2x.png" alt="QQ20150501-1@2x">，就是说拼音是选中状态的，那么可以根据UITextInput 协议计算出选中文字的UITextRange，然后根据UITextRange计算NSRange，就能知道非选中状态下的中文文字字符串了，当然，以上问题在iOS7下没问题！！</p>
 <p>OK，上代码：</p>
-<p>[code lang=”swift”]</p>
-<h1 id="import_&quot;ViewController-h&quot;">import &quot;ViewController.h&quot;</h1><h1 id="import_&quot;UITextRange+ELVSubject-h&quot;">import &quot;UITextRange+ELVSubject.h&quot;</h1><p>//是否iOS7/iOS8</p>
-<h1 id="define_IOS7_([[[[UIDevice_currentDevice]_systemVersion]_substringToIndex:1]_intValue]&gt;=7&amp;&amp;[[[[UIDevice_currentDevice]_systemVersion]_substringToIndex:1]_intValue]&lt;8)">define IOS7 ([[[[UIDevice currentDevice] systemVersion] substringToIndex:1] intValue]&gt;=7&amp;&amp;[[[[UIDevice currentDevice] systemVersion] substringToIndex:1] intValue]&lt;8)</h1><h1 id="define_IOS8_([[[[UIDevice_currentDevice]_systemVersion]_substringToIndex:1]_intValue]&gt;=8)">define IOS8 ([[[[UIDevice currentDevice] systemVersion] substringToIndex:1] intValue]&gt;=8)</h1><p>@interface ViewController ()&lt;UITextFieldDelegate&gt;</p>
-<p>@end</p>
-<p>@implementation ViewController</p>
-<ul>
-<li><p>(void)viewDidLoad{<br>  [super viewDidLoad];<br>  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkTextFieldTextLength:) name:UITextFieldTextDidChangeNotification object:nil];<br>}</p>
-</li>
-<li><p>(void)checkTextFieldTextLength:(NSNotification <em>)noti{<br>  UITextField </em>textField = noti.object;<br>  NSString <em>text = textField.text;<br>  //待选文字外的内容<br>  NSString </em>tmpStr;<br>  if (IOS8) {</p>
-<pre><code><span class="comment">//记录中文待选文字记录</span>
-UITextRange <span class="variable">*markedTextRange</span> = <span class="keyword">textField</span>.markedTextRange;
-<span class="comment">//待选文字range</span>
-NSRange markedRange = [markedTextRange rangeValueWithInputValue:<span class="keyword">textField</span>];
-tmpStr = [NSString stringWithFormat:<span class="variable">@&amp;</span>quot;<span class="variable">%@</span><span class="variable">%@</span>&amp;quot;,[<span class="keyword">text</span> substringToIndex:markedRange.location],[<span class="keyword">text</span> substringFromIndex:markedRange.location+markedRange.length]];
-</code></pre><p>  }<br>  else if (IOS7){</p>
-<pre><code>tmpStr = <span class="type">text</span>;
-</code></pre><p>  }<br>  //修改话题样式<br>  if (tmpStr.length&gt;10) {</p>
-<pre><code><span class="title">[textField deleteBackward]</span><span class="comment">;</span>
-</code></pre><p>  }<br>}</p>
-</li>
-<li><p>(void)dealloc<br>{<br>  [[NSNotificationCenter defaultCenter] removeObserver:self];<br>}</p>
-</li>
-</ul>
-<p>@end</p>
-<h1 id="import_&quot;UITextRange+ELVSubject-h&quot;-1">import &quot;UITextRange+ELVSubject.h&quot;</h1><p>@implementation UITextRange (ELVSubject)</p>
-<p>/**</p>
-<ul>
-<li>UITextRange 转换成 NSRange<br>*</li>
-<li>@param input 输入视图<br>*</li>
-<li>@return NSRange值<br>*/<ul>
-<li>(NSRange)rangeValueWithInputValue:(id&lt;UITextInput&gt;)input<br>{<br>UITextPosition<em> beginning = input.beginningOfDocument;<br>UITextPosition</em> selectionStart = self.start;<br>UITextPosition* selectionEnd = self.end;<br>NSInteger location = [input offsetFromPosition:beginning toPosition:selectionStart];<br>NSInteger length = [input offsetFromPosition:selectionStart toPosition:selectionEnd];<br>return NSMakeRange(location, length);<br>}</li>
-</ul>
-</li>
-</ul>
-<p>@end</p>
-<p>[/code]</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#import &amp;quot;ViewController.h&amp;quot;</span></span><br><span class="line"><span class="preprocessor">#import &amp;quot;UITextRange+ELVSubject.h&amp;quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//是否iOS7/iOS8</span></span><br><span class="line"><span class="preprocessor">#define IOS7 ([[[[UIDevice currentDevice] systemVersion] substringToIndex:1] intValue]&amp;gt;=7&amp;amp;&amp;amp;[[[[UIDevice currentDevice] systemVersion] substringToIndex:1] intValue]&amp;lt;8)</span></span><br><span class="line"><span class="preprocessor">#define IOS8 ([[[[UIDevice currentDevice] systemVersion] substringToIndex:1] intValue]&amp;gt;=8)</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">ViewController</span> ()&amp;<span class="title">lt</span>;<span class="title">UITextFieldDelegate</span>&amp;<span class="title">gt</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">ViewController</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)viewDidLoad&#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line">    [[<span class="built_in">NSNotificationCenter</span> defaultCenter] addObserver:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(checkTextFieldTextLength:) name:<span class="built_in">UITextFieldTextDidChangeNotification</span> object:<span class="literal">nil</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)checkTextFieldTextLength:(<span class="built_in">NSNotification</span> *)noti&#123;</span><br><span class="line">    <span class="built_in">UITextField</span> *textField = noti<span class="variable">.object</span>;</span><br><span class="line">    <span class="built_in">NSString</span> *text = textField<span class="variable">.text</span>;</span><br><span class="line">    <span class="comment">//待选文字外的内容</span></span><br><span class="line">    <span class="built_in">NSString</span> *tmpStr;</span><br><span class="line">    <span class="keyword">if</span> (IOS8) &#123;</span><br><span class="line">        <span class="comment">//记录中文待选文字记录</span></span><br><span class="line">        <span class="built_in">UITextRange</span> *markedTextRange = textField<span class="variable">.markedTextRange</span>;</span><br><span class="line">        <span class="comment">//待选文字range</span></span><br><span class="line">        <span class="built_in">NSRange</span> markedRange = [markedTextRange rangeValueWithInputValue:textField];</span><br><span class="line">        tmpStr = [<span class="built_in">NSString</span> stringWithFormat:@&amp;quot;%@%@&amp;quot;,[text substringToIndex:markedRange<span class="variable">.location</span>],[text substringFromIndex:markedRange<span class="variable">.location</span>+markedRange<span class="variable">.length</span>]];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (IOS7)&#123;</span><br><span class="line">        tmpStr = text;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//修改话题样式</span></span><br><span class="line">    <span class="keyword">if</span> (tmpStr<span class="variable">.length</span>&amp;gt;<span class="number">10</span>) &#123;</span><br><span class="line">        [textField deleteBackward];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)dealloc</span><br><span class="line">&#123;</span><br><span class="line">    [[<span class="built_in">NSNotificationCenter</span> defaultCenter] removeObserver:<span class="keyword">self</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#import &amp;quot;UITextRange+ELVSubject.h&amp;quot;</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">UITextRange</span> (<span class="title">ELVSubject</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> *  UITextRange 转换成 NSRange</span><br><span class="line"> *</span><br><span class="line"> *  @param input 输入视图</span><br><span class="line"> *</span><br><span class="line"> *  @return NSRange值</span><br><span class="line"> */</span></span><br><span class="line">- (<span class="built_in">NSRange</span>)rangeValueWithInputValue:(<span class="keyword">id</span>&amp;lt;<span class="built_in">UITextInput</span>&amp;gt;)input</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">UITextPosition</span>* beginning = input<span class="variable">.beginningOfDocument</span>;</span><br><span class="line">    <span class="built_in">UITextPosition</span>* selectionStart = <span class="keyword">self</span><span class="variable">.start</span>;</span><br><span class="line">    <span class="built_in">UITextPosition</span>* selectionEnd = <span class="keyword">self</span><span class="variable">.end</span>;</span><br><span class="line">    <span class="built_in">NSInteger</span> location = [input offsetFromPosition:beginning toPosition:selectionStart];</span><br><span class="line">    <span class="built_in">NSInteger</span> length = [input offsetFromPosition:selectionStart toPosition:selectionEnd];</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">NSMakeRange</span>(location, length);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
 <p>以上。</p>
 <p>五一快乐！</p>
 
@@ -142,7 +107,7 @@ tmpStr = [NSString stringWithFormat:<span class="variable">@&amp;</span>quot;<sp
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://blog2.caydenk.cn/2015/05/01/iOS限制文字长度（支持中文）/" data-id="ci9drudms0004xnrze116rjyp" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://blog2.caydenk.cn/2015/05/01/iOS限制文字长度（支持中文）/" data-id="ci9ds5tid0004pbrzdc8o5c1v" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -196,7 +161,7 @@ tmpStr = [NSString stringWithFormat:<span class="variable">@&amp;</span>quot;<sp
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://blog2.caydenk.cn/2015/04/13/自定义Switch控件，可自定义文字以及背景的iOS控件/" data-id="ci9drudmf0001xnrzd2j78dmc" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://blog2.caydenk.cn/2015/04/13/自定义Switch控件，可自定义文字以及背景的iOS控件/" data-id="ci9ds5thy0001pbrzcjjigoe5" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -248,7 +213,7 @@ tmpStr = [NSString stringWithFormat:<span class="variable">@&amp;</span>quot;<sp
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://blog2.caydenk.cn/2015/04/02/Block中访问成员变量防止循环引用/" data-id="ci9drudmv0006xnrzx1hl8z95" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://blog2.caydenk.cn/2015/04/02/Block中访问成员变量防止循环引用/" data-id="ci9ds5tih0006pbrzwa8t65gn" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
