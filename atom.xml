@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://blog2.caydenk.cn/"/>
-  <updated>2015-05-08T10:40:55.000Z</updated>
+  <updated>2015-05-08T10:42:52.000Z</updated>
   <id>http://blog2.caydenk.cn/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://blog2.caydenk.cn/2015/05/08/UIColor%E7%9A%84RGB%E6%94%AF%E6%8C%81/"/>
     <id>http://blog2.caydenk.cn/2015/05/08/UIColor的RGB支持/</id>
     <published>2015-05-08T09:57:45.000Z</published>
-    <updated>2015-05-08T10:40:55.000Z</updated>
+    <updated>2015-05-08T10:42:52.000Z</updated>
     <content type="html"><![CDATA[<p>我们都知道UIColor 开发的过程中有些很坑的问题，ps和其他一般取色软件获取到的颜色值一般都是16进制的RGB值(如：#ffaabb)，但是UIColor的API不支持16进制值直接创建，这个时候各路大神就各显神通了</p>
 <h3 id="比如宏定义：">比如宏定义：</h3><pre><code>//定义rgb颜色 用法：UIColor *color=UIColorFromRGB(0x067AB5);
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue &amp; 0xFF0000) &gt;&gt; 16))/255.0 green:((float)((rgbValue &amp; 0xFF00) &gt;&gt; 8))/255.0 blue:((float)(rgbValue &amp; 0xFF))/255.0 alpha:1.0]
@@ -40,7 +40,7 @@
 <p>下载完后，解压zib包，然后拷贝HexColorPicker.colorPicker，<br>打开Finder-&gt;前往-&gt;前往文件夹(快捷键shift+command+g),输入~/Library/ColorPickers,粘贴到ColorPickers文件夹下，然后万事大吉</p>
 <p>然后xib中修改颜色的地方，选择其他，然后选择最右侧的标签，出现如下图所示：</p>
 </blockquote>
-<p><img src="http://caydenkblog.qiniudn.com/201505081833-01@2x.png" alt="a"></p>
+<p><img src="http://caydenkblog.qiniudn.com/201505081833-01@2x.png" alt=""></p>
 <p>ps:今天的博客简直没有技术含量，但是对开发还是有点帮助的，大家看看就好</p>
 <h3 id="以上">以上</h3>]]></content>
     <summary type="html">
