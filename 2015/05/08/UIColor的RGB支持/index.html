@@ -4,32 +4,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Block中访问成员变量防止循环引用 | CaydenK的技术博客</title>
+  <title>UIColor的RGB支持 | CaydenK的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="定义一个成员变量以后，需要在block中引用怎么办呢~
-直接写成员变量名称去用，其实会默认引用self，会出现循环引用
-若是在block外，定义一个弱引用weakSelf（__weak typeof(self) weakSelf = self;）后，在block中，weakSelf-&amp;gt;成员变量 ，这样使用就会报错~
-如图：
-那么，其实代码已经暴露了，在block中对weakSelf再强引用一">
+  <meta name="description" content="我们都知道UIColor 开发的过程中有些很坑的问题，ps和其他一般取色软件获取到的颜色值一般都是16进制的RGB值(如：#ffaabb)，但是UIColor的API不支持16进制值直接创建，这个时候各路大神就各显神通了
+比如宏定义：//定义rgb颜色 用法：UIColor *color=UIColorFromRGB(0x067AB5);
+#define UIColorFromRGB(rgbVal">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Block中访问成员变量防止循环引用">
-<meta property="og:url" content="http://blog2.caydenk.cn/2015/04/02/Block中访问成员变量防止循环引用/index.html">
+<meta property="og:title" content="UIColor的RGB支持">
+<meta property="og:url" content="http://blog2.caydenk.cn/2015/05/08/UIColor的RGB支持/index.html">
 <meta property="og:site_name" content="CaydenK的技术博客">
-<meta property="og:description" content="定义一个成员变量以后，需要在block中引用怎么办呢~
-直接写成员变量名称去用，其实会默认引用self，会出现循环引用
-若是在block外，定义一个弱引用weakSelf（__weak typeof(self) weakSelf = self;）后，在block中，weakSelf-&amp;gt;成员变量 ，这样使用就会报错~
-如图：
-那么，其实代码已经暴露了，在block中对weakSelf再强引用一">
-<meta property="og:image" content="http://img.zynews.com/attachement/jpg/site2/20141119/00219761fd2015d64a955c.jpg">
-<meta property="og:image" content="http://blog.caydenk.cn/wp-content/uploads/2015/04/QQ20150402-1.png">
-<meta property="og:image" content="http://blog.caydenk.cn/wp-content/uploads/2015/04/QQ20150402-2.png">
+<meta property="og:description" content="我们都知道UIColor 开发的过程中有些很坑的问题，ps和其他一般取色软件获取到的颜色值一般都是16进制的RGB值(如：#ffaabb)，但是UIColor的API不支持16进制值直接创建，这个时候各路大神就各显神通了
+比如宏定义：//定义rgb颜色 用法：UIColor *color=UIColorFromRGB(0x067AB5);
+#define UIColorFromRGB(rgbVal">
+<meta property="og:image" content="http://caydenkblog.qiniudn.com/201505081833-01@2x.png">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Block中访问成员变量防止循环引用">
-<meta name="twitter:description" content="定义一个成员变量以后，需要在block中引用怎么办呢~
-直接写成员变量名称去用，其实会默认引用self，会出现循环引用
-若是在block外，定义一个弱引用weakSelf（__weak typeof(self) weakSelf = self;）后，在block中，weakSelf-&amp;gt;成员变量 ，这样使用就会报错~
-如图：
-那么，其实代码已经暴露了，在block中对weakSelf再强引用一">
+<meta name="twitter:title" content="UIColor的RGB支持">
+<meta name="twitter:description" content="我们都知道UIColor 开发的过程中有些很坑的问题，ps和其他一般取色软件获取到的颜色值一般都是16进制的RGB值(如：#ffaabb)，但是UIColor的API不支持16进制值直接创建，这个时候各路大神就各显神通了
+比如宏定义：//定义rgb颜色 用法：UIColor *color=UIColorFromRGB(0x067AB5);
+#define UIColorFromRGB(rgbVal">
   
     <link rel="alternative" href="/atom.xml" title="CaydenK的技术博客" type="application/atom+xml">
   
@@ -81,10 +73,10 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main"><article id="post-Block中访问成员变量防止循环引用" class="article article-type-post" itemscope itemprop="blogPost">
+      <section id="main"><article id="post-UIColor的RGB支持" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/04/02/Block中访问成员变量防止循环引用/" class="article-date">
-  <time datetime="2015-04-02T01:47:06.000Z" itemprop="datePublished">2015-04-02</time>
+    <a href="/2015/05/08/UIColor的RGB支持/" class="article-date">
+  <time datetime="2015-05-08T09:57:45.000Z" itemprop="datePublished">2015-05-08</time>
 </a>
     
   <div class="article-category">
@@ -99,7 +91,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Block中访问成员变量防止循环引用
+      UIColor的RGB支持
     </h1>
   
 
@@ -107,20 +99,34 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="http://img.zynews.com/attachement/jpg/site2/20141119/00219761fd2015d64a955c.jpg" alt=""></p>
-<p>定义一个成员变量以后，需要在block中引用怎么办呢~</p>
-<p>直接写成员变量名称去用，其实会默认引用self，会出现循环引用</p>
-<p>若是在block外，定义一个弱引用weakSelf（__weak typeof(self) weakSelf = self;）后，在block中，weakSelf-&gt;成员变量 ，这样使用就会报错~</p>
-<p>如图：<img src="http://blog.caydenk.cn/wp-content/uploads/2015/04/QQ20150402-1.png" alt="QQ20150402-1"></p>
-<p>那么，其实代码已经暴露了，在block中对weakSelf再强引用一次就万事大吉啦~~~</p>
-<p><img src="http://blog.caydenk.cn/wp-content/uploads/2015/04/QQ20150402-2.png" alt="QQ20150402-2"></p>
-<p>&nbsp;</p>
-
+        <p>我们都知道UIColor 开发的过程中有些很坑的问题，ps和其他一般取色软件获取到的颜色值一般都是16进制的RGB值(如：#ffaabb)，但是UIColor的API不支持16进制值直接创建，这个时候各路大神就各显神通了</p>
+<h3 id="比如宏定义：">比如宏定义：</h3><pre><code>//定义rgb颜色 用法：UIColor *color=UIColorFromRGB(0x067AB5);
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue &amp; 0xFF0000) &gt;&gt; 16))/255.0 green:((float)((rgbValue &amp; 0xFF00) &gt;&gt; 8))/255.0 blue:((float)(rgbValue &amp; 0xFF))/255.0 alpha:1.0]
+</code></pre><h3 id="还有静态函数">还有静态函数</h3><pre><code>UIColor* UIColorFromRGB(NSInteger rgbValue) {
+    return [UIColor colorWithRed:((float) ((rgbValue &amp; 0xFF0000) &gt;&gt; 16)) / 0xFF
+                           green:((float) ((rgbValue &amp; 0xFF00)   &gt;&gt; 8))  / 0xFF
+                            blue:((float)  (rgbValue &amp; 0xFF))            / 0xFF
+                           alpha:1.0];
+}
+</code></pre><h3 id="或者分类(类别)">或者分类(类别)</h3><pre><code>+ (UIColor *)colorWithRGB:(NSInteger)rgbValue{
+    return [UIColor colorWithRed:((float) ((rgbValue &amp; 0xFF0000) &gt;&gt; 16)) / 0xFF
+                           green:((float) ((rgbValue &amp; 0xFF00)   &gt;&gt; 8))  / 0xFF
+                            blue:((float)  (rgbValue &amp; 0xFF))            / 0xFF
+                           alpha:1.0];
+}
+</code></pre><p>OK，到此为止，代码内支持RGB颜色设置已经搞定，那么还有个问题，就是Xib/StoryBoard上设置RGB也是很麻烦的事情，那么这时候就需要一个插件来完成了。<br><a href="http://pan.baidu.com/s/1bnk4MB1" target="_blank" rel="external">百度云</a>(密码: fjv1)</p>
+<blockquote>
+<p>下载完后，解压zib包，然后拷贝HexColorPicker.colorPicker，<br>打开Finder-&gt;前往-&gt;前往文件夹(快捷键shift+command+g),输入~/Library/ColorPickers,粘贴到ColorPickers文件夹下，然后万事大吉</p>
+<p>然后xib中修改颜色的地方，选择其他，然后选择最右侧的标签，出现如下图所示：</p>
+</blockquote>
+<p><img src="http://caydenkblog.qiniudn.com/201505081833-01@2x.png" alt="a"></p>
+<p>ps:今天的博客简直没有技术含量，但是对开发还是有点帮助的，大家看看就好</p>
+<h3 id="以上">以上</h3>
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://blog2.caydenk.cn/2015/04/02/Block中访问成员变量防止循环引用/" data-id="ci9ffo1ec0006m6rzl78m7rqj" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://blog2.caydenk.cn/2015/05/08/UIColor的RGB支持/" data-id="ci9ffrrfa0000ngrzhgczj9xk" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -132,15 +138,11 @@
     
 <nav id="article-nav">
   
-    <a href="/2015/04/13/自定义Switch控件，可自定义文字以及背景的iOS控件/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">
-        
-          自定义Switch控件，可自定义文字以及背景的iOS控件
-        
-      </div>
-    </a>
   
+    <a href="/2015/05/01/iOS限制文字长度（支持中文）/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">iOS限制文字长度（支持中文）</div>
+    </a>
   
 </nav>
 
